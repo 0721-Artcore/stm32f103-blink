@@ -183,11 +183,11 @@ NRST is not connected --> using software reset via AIRCR
 
 | 观察项 | 预期 | 实测 | 状态 |
 |---|---|---|---|
-| LED 亮/灭时序 | 亮 200 ms、灭 800 ms | — | ⬜ 待目测确认 |
-| 周期 | 约 1 s | — | ⬜ 待目测确认 |
+| LED 亮/灭时序 | 亮 200 ms、灭 800 ms | 亮约 0.2 s、灭约 0.8 s（目测）| ✅ 已验证 |
+| 周期 | 约 1 s | 约 1 s（目测）| ✅ 已验证 |
 | 复位后自动运行 | BOOT0=0 时运行 Flash 程序 | 烧录后软复位成功 | ✅ 已验证（复位动作）|
 
-> 目测结果需由使用者观察后补充，本文档不预设结论。
+> 目测确认时间：2026-10-23，测试板为 `chipid 0x410`（128 KB / 20 KB）。目测只能判断量级，不用于精确测量。
 
 ### 5.4 复现步骤
 
@@ -278,7 +278,6 @@ arm-none-eabi-gdb build/project1.elf -ex 'target extended-remote :3333'
 
 | 项 | 说明 |
 |---|---|
-| LED 目测 | 烧录已成功，需人工确认 200 ms / 800 ms 时序 |
 | USB 时钟 | 当前 72 MHz，如启用 USB 需改为 /1.5（48 MHz）|
 | clangd | `compile_commands.json` 已生成（19 条），尚缺 `--query-driver=/usr/bin/arm-none-eabi-*` 配置 |
 
