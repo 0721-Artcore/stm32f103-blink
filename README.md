@@ -82,7 +82,7 @@ sudo pacman -S arm-none-eabi-gcc arm-none-eabi-binutils arm-none-eabi-newlib \
 sudo pacman -S clangd bear picocom
 ```
 
-版本参考：GCC 16.2.1、stlink 1.9、openocd 0.12。
+版本参考：GCC 16.2.0、stlink 1.9.0、openocd 0.12。
 
 ## 编译
 
