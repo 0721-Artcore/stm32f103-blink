@@ -1,0 +1,29 @@
+# 构建产物
+build/
+*.o
+*.d
+*.elf
+*.bin
+*.hex
+*.map
+*.lst
+
+# clangd / bear 生成的编译数据库（路径因环境而异）
+compile_commands.json
+compile_flags.txt
+
+# CubeMX 拷贝的 Keil/ARM 数学库（35MB，GCC 完全不用）
+project1/Drivers/CMSIS/Lib/
+
+# CMSIS 里本工程用不到的部分（Makefile 只用 CMSIS/Device 和 CMSIS/Include）
+project1/Drivers/CMSIS/DSP/
+project1/Drivers/CMSIS/NN/
+project1/Drivers/CMSIS/RTOS/
+project1/Drivers/CMSIS/RTOS2/
+project1/Drivers/CMSIS/Core_A/
+project1/Drivers/CMSIS/docs/
+
+# 编辑器 / 系统
+.vscode/
+*.swp
+.DS_Store
