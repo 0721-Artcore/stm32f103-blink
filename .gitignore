@@ -12,6 +12,9 @@ build/
 compile_commands.json
 compile_flags.txt
 
+# 发布打包产物（只作为 Release 附件，不入库）
+dist/
+
 # CubeMX 拷贝的 Keil/ARM 数学库（35MB，GCC 完全不用）
 project1/Drivers/CMSIS/Lib/
 

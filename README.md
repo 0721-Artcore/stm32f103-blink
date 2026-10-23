@@ -23,7 +23,7 @@ PA0 上的 LED 循环闪烁：
 
 | 项 | 型号 / 说明 |
 |---|---|
-| MCU | **STM32F103C6T6A**（低密度：Flash 32 KB / RAM 10 KB，LQFP48，chip_id `0x412`）|
+| MCU | 默认按 **STM32F103C6T6A**（低密度，32 KB Flash / 10 KB RAM，chip_id `0x412`）配置；同一份镜像也可运行在 C8T6（chip_id `0x410`，实测 128 KB / 20 KB）上 |
 | 板子 | Blue Pill 最小系统板（8 MHz 晶振）|
 | 调试器 | ST-Link V2（克隆版，SWD）|
 | LED | 外接，PA0 驱动 |
@@ -190,12 +190,15 @@ return {
 
 ## 已知问题 / 注意事项
 
-1. **芯片容量**：本工程按实测的 **32 KB Flash / 10 KB RAM** 配置。市面部分 "C8T6" 板子实为 C6T6（或其它降级片），以 `st-info --probe` 读数为准。
-2. **链接脚本**：若更换为 64 KB 的 C8T6，需同时改 `STM32F103xx_FLASH.ld` 的 `LENGTH`（64K/20K）、启动文件和 `-DSTM32F103xB`。
-3. **SWD 引脚**：不要将 PA13/PA14 配置为普通 GPIO 并禁用调试，否则调试器将无法连接。建议 CubeMX 中 `SYS → Debug = Serial Wire`。
+1. **芯片容量**：工程按 **32 KB Flash / 10 KB RAM** 的保守配置生成（链接脚本、启动文件、`-DSTM32F103x6` 一致）。该镜像在 32 KB 与 128 KB 的板子上都能运行；若要使用更大容量，需按实际型号重新生成工程。容量以 `st-info --probe` 读数为准。
+2. **链接脚本**：若切换为 64 KB 的 C8T6 并希望用满容量，需同时修改 `STM32F103xx_FLASH.ld` 的 `LENGTH`（64K/20K）、启动文件和 `-DSTM32F103xB`。
+3. **SWD 引脚**：本工程已配置 `SYS → Debug = Serial Wire`（PA13/PA14），并在 `stm32f1xx_hal_msp.c` 中执行 `__HAL_AFIO_REMAP_SWJ_NOJTAG()`；请勿把这两个引脚改为普通 GPIO，否则调试器将无法连接。
 4. **NRST 未接**：本项目通过 SWD 的 `SYSRESETREQ` 软复位，若程序进入低功耗或关闭调试，需接 NRST 或使用 `st-flash --connect-under-reset`。
 5. **LED 极性**：默认高电平点亮，接法不同需对调 `SET`/`RESET`。
 6. **空间限制**：32 KB Flash 下 HAL 工程需保持 `-ffunction-sections -fdata-sections -Wl,--gc-sections`，必要时把 `OPT` 从 `-Og` 改为 `-Os`。
+7. **USB 时钟**：当前 USB 预分频为 `/1`（72 MHz），不满足 USB 2.0 全速所需 48 MHz。本项目未使用 USB；若启用 USB，请改为 `/1.5`。
+
+详细的配置过程、问题排查与验证记录见 [docs/tech-log.md](docs/tech-log.md)。
 
 ## 参考
 
